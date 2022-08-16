@@ -1,8 +1,10 @@
 <div class="main-content">
   <div class="section-content section-content-p30">
 
-    <h4>Category: {{ currentCategoryName }}</h4>
-    <hr>
+    <div *ngIf="searchMode == false">
+      <h4>Category: {{ currentCategoryName }}</h4>
+      <hr>
+    </div>
 
     <div class="container-fluid">
       <div class="row">
@@ -41,8 +43,22 @@
                 <ngb-pagination [(page)]="thePageNumber"
                                 [pageSize]="thePageSize"
                                 [collectionSize]="theTotalElements"
+                                [maxSize]="5"
+                                [boundaryLinks]="true"
                                 (pageChange)="listProducts()">
                 </ngb-pagination>
+
+              </div>
+
+              <div class="col-md-3 mt-2" style="text-align: right;">
+                <span class="mr-2">Page Size</span>
+
+                <select (change)="updatePageSize($any($event.target).value)">
+                  <option selected="true">5</option>
+                  <option>10</option>
+                  <option>20</option>
+                  <option>50</option>
+                </select>
 
               </div>
             </div>
