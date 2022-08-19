@@ -1,6 +1,8 @@
 import {Component, OnInit} from "@angular/core";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {FormService} from "../../services/form.service";
+import {Country} from "../../common/country";
+import {State} from "../../common/state";
 
 @Component({
   selector: 'app-checkout',
@@ -16,6 +18,11 @@ export class CheckoutComponent implements OnInit {
 
   creditCardYears: number[] = [];
   creditCardMonths: number[] = [];
+
+  countries: Country[] = [];
+
+  shippingAddressStates: State[] = [];
+  billingAddressStates: State[] = [];
 
   constructor(private formBuilder: FormBuilder,
               private formService: FormService) { }
@@ -70,6 +77,14 @@ export class CheckoutComponent implements OnInit {
         this.creditCardYears = data;
       }
     )
+
+    // populate countries
+    this.formService.getCountries().subscribe(
+      data => {
+        console.log("Retrieved countries: " + JSON.stringify(data));
+        this.countries = data;
+      }
+    );
   }
 
   copyShippingAddressToBillingAddress(event: Event) {
@@ -78,9 +93,15 @@ export class CheckoutComponent implements OnInit {
     if (event.target.checked) {
       this.checkoutFormGroup.controls["billingAddress"]
         .setValue(this.checkoutFormGroup.controls["shippingAddress"].value);
+
+      // bug fix for states
+      this.billingAddressStates = this.shippingAddressStates;
     }
     else {
       this.checkoutFormGroup.controls["billingAddress"].reset();
+
+      // bug fix for states
+      this.billingAddressStates = [];
     }
   }
 
@@ -111,5 +132,34 @@ export class CheckoutComponent implements OnInit {
         this.creditCardMonths = data;
       }
     )
+  }
+
+  getStates(formGroupName: string) {
+
+    const formGroup = this.checkoutFormGroup.get(formGroupName);
+
+    // @ts-ignore
+    const countryCode = formGroup.value.country.code;
+    // @ts-ignore
+    const countryName = formGroup.value.country.name;
+
+    console.log(`${formGroupName} country code: ${countryCode}`);
+    console.log(`${formGroupName} country name: ${countryName}`);
+
+    this.formService.getStates(countryCode).subscribe(
+      data => {
+
+        if (formGroupName === 'shippingAddress') {
+          this.shippingAddressStates = data;
+        }
+        else {
+          this.billingAddressStates = data;
+        }
+
+        // select first item by default
+        // @ts-ignore
+        formGroup.get('state').setValue(data[0]);
+      }
+    );
   }
 }
