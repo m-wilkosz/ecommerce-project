@@ -1,5 +1,5 @@
 import {Component, OnInit} from "@angular/core";
-import {FormBuilder, FormControl, FormGroup, Validator, Validators} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {FormService} from "../../services/form.service";
 import {Country} from "../../common/country";
 import {State} from "../../common/state";
@@ -10,7 +10,6 @@ import {Router} from "@angular/router";
 import {Order} from "../../common/order";
 import {OrderItem} from "../../common/order-item";
 import {Purchase} from "../../common/purchase";
-import {error} from "@angular/compiler-cli/src/transformers/util";
 
 @Component({
   selector: 'app-checkout',
