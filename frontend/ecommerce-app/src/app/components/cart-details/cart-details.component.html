@@ -44,7 +44,7 @@
                 </div>
               </div>
 
-              <button (click)="remove(tmpCartItem)" class="btn btn-primary btn-sm mt-2">Remove</button>
+              <button (click)="remove(tmpCartItem)" class="btn btn-primary btn-sm mt-2" style="background-color:#000080; border-color: #000">Remove</button>
 
               <p class="mt-2">Subtotal: {{ tmpCartItem.quantity * tmpCartItem.unitPrice | currency: 'USD' }}</p>
             </td>
@@ -56,7 +56,7 @@
               <p>Total Quantity: {{ totalQuantity }}</p>
               <p>Shipping: FREE</p>
               <p>Total Price: {{ totalPrice | currency: 'USD' }}</p>
-              <a routerLink="/checkout" class="btn btn-primary">Checkout</a>
+              <a routerLink="/checkout" class="btn btn-primary" style="background-color:#000080; border-color:#000">Checkout</a>
             </td>
           </tr>
         </table>
