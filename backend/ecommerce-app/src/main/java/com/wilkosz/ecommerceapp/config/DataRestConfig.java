@@ -1,9 +1,6 @@
 package com.wilkosz.ecommerceapp.config;
 
-import com.wilkosz.ecommerceapp.entity.Country;
-import com.wilkosz.ecommerceapp.entity.Product;
-import com.wilkosz.ecommerceapp.entity.ProductCategory;
-import com.wilkosz.ecommerceapp.entity.State;
+import com.wilkosz.ecommerceapp.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -45,6 +42,8 @@ public class DataRestConfig implements RepositoryRestConfigurer {
         disableHttpMethods(Country.class, config, theUnsupportedActions);
 
         disableHttpMethods(State.class, config, theUnsupportedActions);
+
+        disableHttpMethods(Order.class, config, theUnsupportedActions);
 
         // call an internal helper method
         exposeIds(config);
