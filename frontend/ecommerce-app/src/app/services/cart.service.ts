@@ -89,7 +89,11 @@ export class CartService {
 
     console.log('Contents of the cart');
     for (let tmpCartItem of this.cartItems) {
-      const subTotalPrice = tmpCartItem.quantity * tmpCartItem.unitPrice;
+
+      let subTotalPrice: number = 0;
+      if (tmpCartItem.name != undefined) {
+        subTotalPrice = tmpCartItem.quantity * tmpCartItem.unitPrice;
+      }
       console.log(`name: ${tmpCartItem.name}, quantity=${tmpCartItem.quantity}, unitPrice=${tmpCartItem.unitPrice}, subTotalPrice=${subTotalPrice}`);
     }
 
