@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
       el: '#okta-sign-in-widget'},
       (response: any) => {
         if (response.status === 'SUCCESS') {
-          this.oktaAuth.signInWithRedirect().then();
+          this.oktaAuth.signInWithRedirect();
         }
       },
       (error: any) => {

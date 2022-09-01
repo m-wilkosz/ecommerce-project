@@ -5,7 +5,7 @@ import {AppComponent} from "./app.component";
 import {ProductListComponent} from "./components/product-list/product-list.component";
 import {HttpClientModule} from "@angular/common/http";
 import {ProductService} from "./services/product.service";
-import {Routes, RouterModule, Router} from "@angular/router";
+import {Routes, RouterModule} from "@angular/router";
 import {ProductCategoryMenuComponent} from "./components/product-category-menu/product-category-menu.component";
 import {SearchComponent} from "./components/search/search.component";
 import {ProductDetailsComponent} from "./components/product-details/product-details.component";
@@ -17,33 +17,16 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {LoginComponent} from "./components/login/login.component";
 import {LoginStatusComponent} from "./components/login-status/login-status.component";
 
-import {
-  OKTA_AUTH, OKTA_CONFIG, OktaAuthGuard,
-  OktaAuthModule,
-  OktaCallbackComponent
-} from "@okta/okta-angular";
+import {OKTA_CONFIG, OktaAuthGuard, OktaAuthModule, OktaCallbackComponent} from "@okta/okta-angular";
 
 import AppConfig from "./config/app-config";
 import {OktaAuth} from "@okta/okta-auth-js";
 import {MembersPageComponent} from "./components/members-page/members-page.component";
 import {OrderHistoryComponent} from "./components/order-history/order-history.component";
 
-const oktaConfig = Object.assign({
-  onAuthRequired: (oktaAuth: any, injector: any) => {
-    const router = injector.get(Router);
+const oktaConfig = AppConfig.oidc;
 
-    // Redirect the user to custom login page
-    router.navigate(['/login']);
-  }
-}, AppConfig.oidc);
-
-const config = {
-  issuer: 'https://dev-72782908.okta.com/oauth2/default',
-  clientId: '0oa69nl8v5ubRu6hi5d7',
-  redirectUri: window.location.origin + '/login/callback',
-  scopes: ['openid', 'profile', 'email']
-}
-const oktaAuth = new OktaAuth(config);
+const oktaAuth = new OktaAuth(oktaConfig);
 
 const routes: Routes = [
   {path: 'order-history', component: OrderHistoryComponent, canActivate: [OktaAuthGuard]},
@@ -84,7 +67,7 @@ const routes: Routes = [
     ReactiveFormsModule,
     OktaAuthModule
   ],
-  providers: [ProductService, { provide: OKTA_CONFIG, useValue: { oktaConfig, oktaAuth } }],
+  providers: [ProductService, { provide: OKTA_CONFIG, useValue: { oktaAuth } }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
