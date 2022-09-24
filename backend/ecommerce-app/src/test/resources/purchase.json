@@ -1,0 +1,33 @@
+{
+  "customer": {
+    "email": "jkowalski@gmail.com",
+    "firstName": "Jan",
+    "lastName": "Kowalski"
+  },
+  "shippingAddress": {
+    "city": "Toronto",
+    "country": "Canada",
+    "state": "Ontario",
+    "street": "Main St",
+    "zipCode": "123456"
+  },
+  "billingAddress": {
+    "city": "Toronto",
+    "country": "Canada",
+    "state": "Ontario",
+    "street": "Main St",
+    "zipCode": "123456"
+  },
+  "order": {
+    "totalPrice": 14.99,
+    "totalQuantity": 1
+  },
+  "orderItems": [
+    {
+      "imageUrl": "assets/images/products/books/tech/book.png",
+      "productId": 1,
+      "quantity": 1,
+      "unitPrice": 14.99
+    }
+  ]
+}

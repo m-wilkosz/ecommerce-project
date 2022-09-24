@@ -19,8 +19,24 @@
 	<dependencies>
 		<dependency>
 			<groupId>io.rest-assured</groupId>
-			<artifactId>rest-assured-all</artifactId>
-			<version>4.2.0</version>
+			<artifactId>rest-assured</artifactId>
+			<version>5.2.0</version>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.apache.groovy</groupId>
+					<artifactId>groovy</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apache.groovy</groupId>
+					<artifactId>groovy-xml</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.13.2</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
