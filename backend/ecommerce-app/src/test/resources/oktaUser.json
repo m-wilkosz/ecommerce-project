@@ -1,0 +1,8 @@
+{
+  "username": "username_placeholder",
+  "password": "password_placeholder",
+  "options": {
+    "multiOptionalFactorEnroll": false,
+    "warnBeforePasswordExpired": false
+  }
+}
