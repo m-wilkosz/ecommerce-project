@@ -16,12 +16,12 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -42,7 +42,7 @@ class EcommerceAppApplicationTests {
         this.orderRepository = orderRepository;
     }
 
-    public String resourceJsonToString(String filename) throws FileNotFoundException {
+    private String resourceJsonToString(String filename) throws FileNotFoundException {
 
         InputStream is = new FileInputStream(System.getProperty("user.dir") + "/src/test/resources/" + filename + ".json");
         Scanner scan = new Scanner(is).useDelimiter("\\A");
@@ -57,12 +57,13 @@ class EcommerceAppApplicationTests {
 
         Purchase purchase = new ObjectMapper().readValue(resourceJsonToString("purchase"), Purchase.class);
 
-        PurchaseResponse purchaseResponse = checkoutService.placeOrder(purchase);
-        System.out.println(purchaseResponse.getOrderTrackingNumber());
+        PurchaseResponse purchaseResponse = this.checkoutService.placeOrder(purchase);
+        String orderTrackingNumber = purchaseResponse.getOrderTrackingNumber();
+        System.out.println(orderTrackingNumber);
 
         Assertions.assertAll (
-                () -> assertNotNull(purchaseResponse.getOrderTrackingNumber()),
-                () -> assertNotEquals("", purchaseResponse.getOrderTrackingNumber())
+                () -> assertNotNull(orderTrackingNumber),
+                () -> assertNotEquals("", orderTrackingNumber)
         );
     }
 
@@ -71,7 +72,7 @@ class EcommerceAppApplicationTests {
 
         PaymentInfo paymentInfo = new ObjectMapper().readValue(resourceJsonToString("paymentInfo"), PaymentInfo.class);
 
-        PaymentIntent paymentIntent = checkoutService.createPaymentIntent(paymentInfo);
+        PaymentIntent paymentIntent = this.checkoutService.createPaymentIntent(paymentInfo);
 
         Assertions.assertAll (
                 () -> assertEquals(99, paymentIntent.getAmount()),
@@ -84,7 +85,7 @@ class EcommerceAppApplicationTests {
     @Test
     public void findByCountryCodeTest() {
 
-        List<State> canadaStates = stateRepository.findByCountryCode("CA");
+        List<State> canadaStates = this.stateRepository.findByCountryCode("CA");
 
         Assertions.assertAll (
                 () -> assertEquals("Alberta", canadaStates.get(0).getName()),
@@ -98,10 +99,18 @@ class EcommerceAppApplicationTests {
     @Test
     public void findByCustomerEmailOrderByDateCreatedDescTest() {
 
-        Page<Order> pageOrder = orderRepository.findByCustomerEmailOrderByDateCreatedDesc("jkowalski@gmail.com", PageRequest.of(0, 10));
+        List<Order> orderList = this.orderRepository
+                .findByCustomerEmailOrderByDateCreatedDesc("jkowalski@gmail.com", PageRequest.of(0, 100))
+                .getContent();
+
+        List<String> OTNList = new ArrayList<>();
+        for (Order order : orderList) {
+            OTNList.add(order.getOrderTrackingNumber());
+        }
 
         Assertions.assertAll (
-                () -> assertEquals(1, pageOrder.getTotalElements())
+                () -> assertFalse(OTNList.contains(null)),
+                () -> assertFalse(OTNList.contains(""))
         );
     }
 }
