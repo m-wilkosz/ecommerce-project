@@ -178,7 +178,7 @@ public class RestApiTests {
                         "&code_challenge_method=S256&response_mode=form_post&scope=openid" +
                         "&state=ZRNrwp3op2Xv8XqaqjPFHivPP9YUsvH8GyrL3D0CPw3gXyxLaKAhzvZSCdkXlVWb&sessionToken=" + sessionToken);
 
-        //TODO https://support.okta.com/help/s/article/How-to-get-tokens-for-an-OIDC-application-without-a-browser-using-curl-Postman?language=en_US
+        // TODO https://support.okta.com/help/s/article/How-to-get-tokens-for-an-OIDC-application-without-a-browser-using-curl-Postman?language=en_US
 
         RestAssured.baseURI = "https://localhost:8443/api";
 
