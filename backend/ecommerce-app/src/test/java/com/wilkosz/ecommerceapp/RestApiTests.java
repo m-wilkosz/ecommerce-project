@@ -155,7 +155,7 @@ public class RestApiTests {
         );
     }
 
-    @Test
+    /*@Test
     public void getOrdersOfSpecificCustomer200() throws FileNotFoundException {
 
         RestAssured.baseURI = "https://dev-72782908.okta.com";
@@ -180,15 +180,15 @@ public class RestApiTests {
 
         //TODO https://support.okta.com/help/s/article/How-to-get-tokens-for-an-OIDC-application-without-a-browser-using-curl-Postman?language=en_US
 
-        /*RestAssured.baseURI = "https://localhost:8443/api";
+        RestAssured.baseURI = "https://localhost:8443/api";
 
         RequestSpecification request = RestAssured.given().relaxedHTTPSValidation();
 
         Response response = request.get("/orders/search/findByCustomerEmailOrderByDateCreatedDesc?email=jkowalski@gmail.com");
-        int customerOrdersNumber = response.getBody().jsonPath().getList("_embedded.orders.id").size();*/
+        int customerOrdersNumber = response.getBody().jsonPath().getList("_embedded.orders.id").size();
 
         assertAll (
                 () -> Assertions.assertTrue(sessionTokenResponse.getBody().asString().contains("sessionToken"))
         );
-    }
+    }*/
 }
